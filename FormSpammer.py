@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 def checkInstalled(library):
     try:
@@ -29,8 +30,11 @@ for image in os.listdir(images_dir):
         detect_Image.append(image)
         print(f"Added {image} to the list of images to detect")
 
-print("Press 'q' to quit")
+print("Hold 'q' to quit, starting in 10 seconds")
 
+time.sleep(10)
+
+counter = 0
 while True:
     for image in detect_Image:
         try:
@@ -44,10 +48,12 @@ while True:
             continue
         pyautogui.click(x, y)
         print(f"{image} found")
+        if image == "again.png":
+            counter += 1
+            print(f"Counter = {counter}")
 
     if keyboard.is_pressed('q'):
         break
 
+print(f"Forms submitted: {counter}")
 print("Quitting...")
-
-cv2.destroyAllWindows()
