@@ -19,6 +19,9 @@ checkInstalled("pyautogui")
 import pyautogui
 checkInstalled("numpy")
 import numpy as np
+checkInstalled("pyscreeze")
+import pyscreeze
+import pyautogui
 
 Treshold = 0.8
 
@@ -43,7 +46,7 @@ while True:
                 print(f"{image} not found")
                 continue
             x, y = location
-        except TypeError:
+        except:
             print(f"{image} not found")
             continue
         pyautogui.click(x, y)
