@@ -23,9 +23,10 @@ checkInstalled("pyscreeze")
 import pyscreeze
 import pyautogui
 
-Treshold = 0.8
+Treshold = 0.9
 
 detect_Image = []
+found = []
 images_dir = os.path.join(os.getcwd(), "images")
 
 for image in os.listdir(images_dir):
@@ -33,12 +34,19 @@ for image in os.listdir(images_dir):
         detect_Image.append(image)
         print(f"Added {image} to the list of images to detect")
 
+
+time.sleep(10)
+
+cpos = pyautogui.position()
+
 print("Hold 'q' to quit, starting in 10 seconds")
 
 time.sleep(10)
 
+click_count = 0
 counter = 0
 while True:
+    if counter  == 27: exit()
     for image in detect_Image:
         try:
             location = pyautogui.locateCenterOnScreen(os.path.join(images_dir, image), grayscale=True, confidence=Treshold)
@@ -49,9 +57,14 @@ while True:
         except:
             print(f"{image} not found")
             continue
-        pyautogui.click(x, y)
-        print(f"{image} found")
+        if click_count < 7 and image not in found:
+            found.append(image)
+            pyautogui.click(x, y)
+            print(f"{image} found")
+        elif click_count == 7:
+            pyautogui.click(cpos)
         if image == "again.png":
+            found = []
             counter += 1
             print(f"Counter = {counter}")
 
